@@ -51,8 +51,6 @@ class HomeScreen(BaseScreen):
 
     def start_new_experiment(self):
         from .new_experiment_screen import NewExperiment  # Import inside the function
-        from .reference_sample_screen import ReferenceSample  # Import inside the function
-        from .result_page_screen import ResultPage  # Import inside the function
         self.app_instance.switch_screen(NewExperiment)
 
     def view_experiment(self):
