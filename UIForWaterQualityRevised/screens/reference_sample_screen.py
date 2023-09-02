@@ -2,15 +2,20 @@ import tkinter as tk
 import time
 import os
 from .base_screen import BaseScreen
+from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
 BuzzerPin = 21 ###BCM is 21 PIN 40
+
 class ReferenceSample(BaseScreen):
     def BuzzerSound(self):
         pass
 
     def __init__(self, master, app_instance):
         super().__init__(master, "", app_instance, background="../images/ref.png")
+        self.curr_dir = os.path.dirname(os.path.abspath(__file__))
         current_directory = os.path.dirname(os.path.abspath(__file__))
-        self.timer_label = tk.Label(self, text="Timer: 10 seconds")
+        self.config_handler=ConfigHandler()
+
+        self.timer_label = tk.Label(self, text="Timer: "+str(self.config_handler.get_acquisition_duration_in_secs())+" seconds")
         self.timer_label.place(relx=0.45, rely=0.50)
 
 
@@ -21,8 +26,8 @@ class ReferenceSample(BaseScreen):
         self.start_button.image = self.start_image  # Keep a reference to avoid garbage collection
         self.start_button.place(relx=0.37, rely=0.7)  # Center the button
 
-        self.remaining_time = 10  # Initial timer value in seconds
-
+        self.remaining_time = self.config_handler.get_acquisition_duration_in_secs()  # Initial timer value in seconds
+        print(self.remaining_time)
 
     def update_timer_label(self):
         self.timer_label.config(text=f"Timer: {self.remaining_time} seconds")
@@ -36,7 +41,7 @@ class ReferenceSample(BaseScreen):
         # For demonstration purposes, let's simulate a measurement delay
         self.start_button.config(state="disabled")
         self.start_button.config(text="Measurement in progress...")
-        self.after(10000, self.start_bio_burden_sample)  # Simulate measurement delay
+        self.after((self.config_handler.get_acquisition_duration_in_secs()*1000)+150,self.start_bio_burden_sample)  # Simulate measurement delay
 
     def start_bio_burden_sample(self):
         from .bio_burden_sample_screen import BioBurdenSample  # Import inside the function

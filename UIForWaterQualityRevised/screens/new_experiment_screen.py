@@ -3,11 +3,14 @@ from .base_screen import BaseScreen
 from .USKeyboard import USKeyboard
 import os
 from datetime import datetime
+from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
 
 class NewExperiment(BaseScreen):
     def __init__(self, master, app_instance):
         super().__init__(master, "", app_instance, background="../images/new.png")
+        self.curr_dir = os.path.dirname(os.path.abspath(__file__))
         current_directory = os.path.dirname(os.path.abspath(__file__))
+        self.config_handler=ConfigHandler()
         # Entry for experiment name with a custom keyboard binding
         self.experiment_name_entry = tk.Entry(self)
         self.experiment_name_entry.bind("<FocusIn>", self.show_keyboard)
@@ -35,12 +38,14 @@ class NewExperiment(BaseScreen):
         # Get the current datetime
         now = datetime.now()
         # Format the datetime to "ddmmyyyyhhmmss"
-        formatted_date = now.strftime("%d%m%Y%H%M%S")
+        formatted_dateTime = now.strftime("%d%m%Y%H%M%S")
+        formatted_date = now.strftime("%d%m%Y")
         print(formatted_date)
         if experiment_name:
-            global currentExperiment
-            currentExperiment=experiment_name+"_"+formatted_date
-            print(currentExperiment)
+            currentExperiment=experiment_name+"_"+formatted_dateTime
+            self.config_handler.set_current_experiment(currentExperiment)
+            self.config_handler.set_current_experiment_path(self.curr_dir+"/../RAW_DATA/"+formatted_date+"/"+currentExperiment)
+            print(self.curr_dir+"/../RAW_DATA/"+formatted_date+"/"+currentExperiment)
             self.app_instance.switch_screen(ReferenceSample)
 
     def back_to_home(self):
