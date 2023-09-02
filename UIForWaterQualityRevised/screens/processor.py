@@ -5,17 +5,25 @@ from ctypes import *
 from config_handler import ConfigHandler
 import RPi.GPIO as GPIO
 class Processor:
-    def __init__(self):
-        GPIO.setwarnings(False)
-        self.BuzzerPin = 21  # BCM is 21 PIN 40
-        GPIO.setmode(GPIO.BCM)  # Broadcom pin-numbering scheme
-        GPIO.setup(self.BuzzerPin, GPIO.OUT)  # LED pin set as output
-        self.config_handler = ConfigHandler()
-        self.thesPeak = self.config_handler.get_threshold_delta_peak_counts()
-        self.thesTotal = self.config_handler.get_threshold_delta_total_counts()
-        self.samplingTimeInSeconds = self.config_handler.get_acquisition_duration_in_secs()
-        self.DataforReference = []
-        self.DataforSample = []
+    _instance = None
+    BuzzerPin = 21
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Processor, cls).__new__(cls)
+            GPIO.setwarnings(False)
+            # BCM is 21 PIN 40
+            GPIO.setmode(GPIO.BCM)  # Broadcom pin-numbering scheme
+            GPIO.setup(21, GPIO.OUT)  # LED pin set as output
+            # Initialization code here
+            cls._instance.config_handler = ConfigHandler()
+            cls._instance.thesPeak = cls._instance.config_handler.get_threshold_delta_peak_counts()
+            cls._instance.thesTotal = cls._instance.config_handler.get_threshold_delta_total_counts()
+            cls._instance.samplingTimeInSeconds = cls._instance.config_handler.get_acquisition_duration_in_secs()
+            cls._instance.DataforSaline = []
+            cls._instance.DataforBioBurden = []
+
+        return cls._instance
+
 
     def BuzzerSound(self):
         GPIO.output(self.BuzzerPin, GPIO.HIGH)
