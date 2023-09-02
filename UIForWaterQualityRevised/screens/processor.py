@@ -4,9 +4,13 @@ import pandas as pd
 from ctypes import *
 from config_handler import ConfigHandler
 import RPi.GPIO as GPIO
+import json
 class Processor:
     _instance = None
     BuzzerPin = 21
+    DataforReference=[]
+    DataforSample=[]
+
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super(Processor, cls).__new__(cls)
@@ -81,11 +85,33 @@ class Processor:
         HistbinInterval = 0.2
         tailLen = int(np.floor(DecayIdleTailDurationNs/HistbinInterval))
         return data - np.mean(data[-tailLen:])
+
     def Result(self):
-        if (((self.DataforSample[0] - self.DataforReference[0])/self.DataforReference[0] )> self.thesPeak) or (
-                ((self.DataforSample[1] - self.DataforReference[1])/self.DataforReference[1]) > self.thesTotal):
-            results = "Positive"
+        output_file = self.config_handler.get_current_experiment_path() + "/results.json"
+
+        # Determine the result
+        if (((self.DataforSample[0] - self.DataforReference[0]) / self.DataforReference[0]) > self.thesPeak) or \
+                (((self.DataforSample[1] - self.DataforReference[1]) / self.DataforReference[1]) > self.thesTotal):
+            result_status = "Positive"
         else:
-            results = "Negative"
-        return results
+            result_status = "Negative"
+
+        # Construct the data to be written to JSON
+        data = {
+            "refPeakCount": self.DataforReference[0],
+            "refTotalCount": self.DataforReference[1],
+            "samPeakCount": self.DataforSample[0],
+            "samTotalCount": self.DataforSample[1],
+            "bioBurden": result_status,
+            "acquisitionDurationInSecs": self.config_handler.get_acquisition_duration_in_secs(),
+            "thresholdDeltaPeakCounts": self.thesPeak,
+            "thresholdDeltaTotalCounts": self.thesTotal
+        }
+
+        # Write the data to the JSON file
+        with open(output_file, 'w') as outfile:
+            json.dump(data, outfile, indent=4)
+
+        return result_status
+
 

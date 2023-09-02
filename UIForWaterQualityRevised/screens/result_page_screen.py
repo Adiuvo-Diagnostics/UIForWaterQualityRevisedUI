@@ -2,13 +2,13 @@ import tkinter as tk
 from .base_screen import BaseScreen
 import os
 import json
-
+from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
 
 class ResultPage(BaseScreen):
     def __init__(self, master, app_instance):
         super().__init__(master, "", app_instance, background="../images/results.png")
         current_directory = os.path.dirname(os.path.abspath(__file__))
-
+        self.config_handler=ConfigHandler()
         # NEW EXPERIMENT
         start_button_path = os.path.join(current_directory, "../buttons/homeButton.png")
         self.start_image = tk.PhotoImage(file=start_button_path)
@@ -25,7 +25,7 @@ class ResultPage(BaseScreen):
 
 
         # Read and parse JSON file
-        with open(os.path.join(current_directory, "../RAW_DATA/01-08-2023/ECOLI_01082023125348/results.json"), "r") as file:
+        with open(os.path.join(current_directory,self.config_handler.set_current_experiment_path()+"/results.json"), "r") as file:
             data = json.load(file)
 
         if data["bioBurden"] == "Positive":

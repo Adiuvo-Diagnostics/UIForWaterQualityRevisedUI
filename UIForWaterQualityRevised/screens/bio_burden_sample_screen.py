@@ -42,6 +42,7 @@ class BioBurdenSample(BaseScreen):
 
     def navTOResults(self):
         self.processor.Result()
+        time.sleep(1)
         from .result_page_screen import ResultPage  # Import inside the function
         self.app_instance.switch_screen(ResultPage)
 
