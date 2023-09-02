@@ -1,8 +1,8 @@
 {
-    "currentExperiment": "ECOLI_02092023160530",
-    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/screens/../RAW_DATA/02092023/ECOLI_02092023160530",
+    "currentExperiment": "asdfg_02092023172652",
+    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/screens/../RAW_DATA/02092023/asdfg_02092023172652",
     "acquisitionDurationInSecs": 5,
-    "thresholdDeltaPeakCounts": 100,
-    "thresholdDeltaTotalCounts": 1000,
+    "thresholdDeltaPeakCounts": 100.0,
+    "thresholdDeltaTotalCounts": 1000.0,
     "mode": "relative"
 }

@@ -1,7 +1,7 @@
 import tkinter as tk
 from .base_screen import BaseScreen
 import os
-from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
+from .config_handler import ConfigHandler
 from tkinter import messagebox
 
 

@@ -101,6 +101,7 @@ double clockperiod = 1.0/clockfrequency;
 char sampleData[80];
 char export[]={"/export.csv"};
 char file_path[1000];
+uint32_t counts = 0;
 
 void main(int sec)
 {
@@ -110,21 +111,26 @@ void main(int sec)
 	double tdcval;
 
 	printf("%s\n",file_path);
-	printf("i am in C main function !!!!!!\n\n");\
+	printf("i am in C main function !!!!!!\n");
+	printf("i am in C main function !!!!!!\n");
+	printf("Sec = %d\n",SetTime);
 	printf("Sec = %d\n",SetTime);
 
-	uint32_t counts = 0;
-	
+	//REMOVE
+
 	tdc_init();
-	printf("Filepath Inga paru man: %s",file_path);
+	printf("Sec = %d\n",SetTime);
 
 	FILE *fptr= fopen(file_path,"w");
 	if(fptr == NULL)
 		printf("File open failed: %s",strerror(errno));
 	fprintf(fptr,"tof\n");
 	fclose(fptr);
+	printf("Sec = %d\n",SetTime);
 
 	time_t time_start = time(NULL);
+
+	printf("Sec = %d\n",SetTime);
 	
 	while(1)
 	{	
@@ -305,7 +311,6 @@ double tdc_measure()
 	//time_t tMeasStart=time(NULL);
 	//struct timeval tval_before, tval_after, tval_result;
     //gettimeofday(&tval_before, NULL);
-	//printf("Waiting for measurement\n");
 	// while(digitalRead(tdc2_interu_pin))//Waiting for TDC 2 interrupt to deassert
 	while(GPIO_READ(tdc2_interu_pin))
 	{
@@ -318,7 +323,6 @@ double tdc_measure()
 		   // break;
 	   // }
 	};//Wait for start and stop
-	printf("Measurement done\n");
 	double calib1 = (double)tdc_long_recv(TI_TDC720x_CALIBRATION1_REG);
 	double calib2 = (double)tdc_long_recv(TI_TDC720x_CALIBRATION2_REG);
 	//The following three lines of code are being moved out as global steps to reduce redundant delay.
@@ -335,7 +339,7 @@ double tdc_measure()
 void tdc_store(double value)
 {
 	// strcat(sampleData,export);
-	// printf("I am in c program main funciton - Raw data path = %s\n",sampleData);
+	printf("I am in c program main funciton - Raw data path = %s\n",sampleData);
 
 	FILE *fptr = fopen(file_path,"a");
 	if(fptr == NULL)

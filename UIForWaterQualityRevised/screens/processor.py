@@ -5,6 +5,7 @@ from ctypes import *
 from .config_handler import ConfigHandler
 import RPi.GPIO as GPIO
 import json
+import os
 class Processor:
     _instance = None
     BuzzerPin = 21
@@ -38,8 +39,12 @@ class Processor:
 
     def StartTestForReference(self):
         self.BuzzerSound()
-        SampleCSVFilepath = self.config_handler.get_current_experiment_path()+"/ref.csv"
-        libCalc = CDLL("./timedAcq.so")
+        SampleCSVFilepath = os.path.abspath(self.config_handler.get_current_experiment_path()+"/ref.csv")
+        os.makedirs(os.path.dirname(SampleCSVFilepath), exist_ok=True)
+        with open(SampleCSVFilepath,"w") as fp:
+            fp.write("")
+        print("Check this out",SampleCSVFilepath)
+        libCalc = CDLL("./timedAcq_new.so")
         for i in range(0, len(SampleCSVFilepath)):
             libCalc.path(ord(SampleCSVFilepath[i]), 0)
         libCalc.path(ord('\0'), 1)
@@ -56,8 +61,11 @@ class Processor:
 
     def StartTestForSample(self):
         self.BuzzerSound()
-        SampleCSVFilepath = self.config_handler.get_current_experiment_path()+"/sam.csv"
-        libCalc = CDLL("./timedAcq.so")
+        SampleCSVFilepath = os.path.abspath(self.config_handler.get_current_experiment_path()+"/sam.csv")
+        os.makedirs(os.path.dirname(SampleCSVFilepath), exist_ok=True)
+        with open(SampleCSVFilepath,"w") as fp:
+            fp.write("")
+        libCalc = CDLL("./timedAcq_new.so")
         for i in range(0, len(SampleCSVFilepath)):
             libCalc.path(ord(SampleCSVFilepath[i]), 0)
         libCalc.path(ord('\0'), 1)

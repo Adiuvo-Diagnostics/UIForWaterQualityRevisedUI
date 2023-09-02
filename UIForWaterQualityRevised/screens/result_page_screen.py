@@ -2,7 +2,7 @@ import tkinter as tk
 from .base_screen import BaseScreen
 import os
 import json
-from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
+from .config_handler import ConfigHandler
 
 class ResultPage(BaseScreen):
     def __init__(self, master, app_instance):

@@ -36,8 +36,8 @@ class ReferenceSample(BaseScreen):
             self.after(1000, self.update_timer_label)  # Update timer label every second
 
     def start_reference_measurement(self):
-        self.processor.StartTestForReference()
         self.update_timer_label()
+        self.processor.StartTestForReference()
         # Implement start_reference_measurement logic
         # For demonstration purposes, let's simulate a measurement delay
         self.start_button.config(state="disabled")

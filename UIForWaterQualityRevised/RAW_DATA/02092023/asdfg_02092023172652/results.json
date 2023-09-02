@@ -1,0 +1,10 @@
+{
+    "refPeakCount": 0.0,
+    "refTotalCount": 0.0,
+    "samPeakCount": 0.0,
+    "samTotalCount": 0.0,
+    "bioBurden": "Negative",
+    "acquisitionDurationInSecs": 5,
+    "thresholdDeltaPeakCounts": 100.0,
+    "thresholdDeltaTotalCounts": 1000.0
+}
