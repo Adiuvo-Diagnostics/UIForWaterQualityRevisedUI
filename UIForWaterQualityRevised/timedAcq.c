@@ -141,7 +141,7 @@ void main(int sec)
 		tdcval = tdc_measure();
 		if(tdcval<=100.00)
 		{
-			printf("TDC value is less than or equal to 100. Storing value...\n");
+			//printf("TDC value is less than or equal to 100. Storing value...\n");
 			tdc_store(tdcval);
 		}
 		i=0;
@@ -296,7 +296,7 @@ double tdc_measure()
 void tdc_store(double value)
 {
 	// strcat(sampleData,export);
-	printf("I am in c program main funciton - Raw data path = %s\n",sampleData);
+	//printf("I am in c program main funciton - Raw data path = %s\n",sampleData);
 
 	FILE *fptr = fopen(file_path,"a");
 	if(fptr == NULL)
