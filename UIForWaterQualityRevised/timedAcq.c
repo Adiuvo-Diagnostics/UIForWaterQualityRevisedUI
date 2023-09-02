@@ -116,14 +116,7 @@ void main(int sec)
 	uint32_t counts = 0;
 	
 	tdc_init();
-	
-	// FILE *fptr = fopen(path,"r");
-	// if(fptr == NULL)
-	// 	printf("File open failed: %s",strerror(errno));
-	// fgets(sampleData, 100, fptr);
-	// fclose(fptr);
-	// strcat(sampleData,export);
-	// printf("I am in c program main funciton - Raw data path = %s\n",sampleData);
+	printf("Filepath Inga paru man: %s",file_path);
 
 	FILE *fptr= fopen(file_path,"w");
 	if(fptr == NULL)
