@@ -60,7 +60,6 @@ class Processor:
         libCalc.main(self.samplingTimeInSeconds)
         self.BuzzerSound()
         self.SampleAnalysis()
-        self.Result()
 
     def SampleAnalysis(self):
         data = pd.read_csv(self.config_handler.get_current_experiment_path()+"/sam.csv")

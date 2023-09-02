@@ -3,17 +3,17 @@ import time
 import os
 from .base_screen import BaseScreen
 from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
+from UIForWaterQualityRevised.screens.processor import Processor
 BuzzerPin = 21 ###BCM is 21 PIN 40
 
 class ReferenceSample(BaseScreen):
-    def BuzzerSound(self):
-        pass
 
     def __init__(self, master, app_instance):
         super().__init__(master, "", app_instance, background="../images/ref.png")
         self.curr_dir = os.path.dirname(os.path.abspath(__file__))
         current_directory = os.path.dirname(os.path.abspath(__file__))
         self.config_handler=ConfigHandler()
+        self.processor = Processor()
 
         self.timer_label = tk.Label(self, text="Timer: "+str(self.config_handler.get_acquisition_duration_in_secs())+" seconds")
         self.timer_label.place(relx=0.45, rely=0.50)
@@ -36,6 +36,7 @@ class ReferenceSample(BaseScreen):
             self.after(1000, self.update_timer_label)  # Update timer label every second
 
     def start_reference_measurement(self):
+        self.processor.StartTestForReference()
         self.update_timer_label()
         # Implement start_reference_measurement logic
         # For demonstration purposes, let's simulate a measurement delay

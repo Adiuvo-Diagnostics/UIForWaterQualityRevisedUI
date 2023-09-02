@@ -2,6 +2,7 @@ import tkinter as tk
 import time
 from .base_screen import BaseScreen
 from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
+from UIForWaterQualityRevised.screens.processor import Processor
 import os
 class BioBurdenSample(BaseScreen):
     def __init__(self, master,app_instance):
@@ -9,6 +10,7 @@ class BioBurdenSample(BaseScreen):
         self.curr_dir = os.path.dirname(os.path.abspath(__file__))
         current_directory = os.path.dirname(os.path.abspath(__file__))
         self.config_handler=ConfigHandler()
+        self.processor = Processor()
 
         self.timer_label = tk.Label(self, text="Timer: "+str(self.config_handler.get_acquisition_duration_in_secs())+" seconds")
         self.timer_label.place(relx=0.45, rely=0.50)
@@ -31,6 +33,7 @@ class BioBurdenSample(BaseScreen):
 
 
     def start_bio_burden_measurement(self):
+        self.processor.StartTestForSample()
         self.update_timer_label()
         self.start_button.config(state="disabled")
         self.start_button.config(text="Measurement in progress...")
@@ -38,6 +41,7 @@ class BioBurdenSample(BaseScreen):
 
 
     def navTOResults(self):
+        self.processor.Result()
         from .result_page_screen import ResultPage  # Import inside the function
         self.app_instance.switch_screen(ResultPage)
 
