@@ -13,7 +13,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Multi-Screen App")
-        self.geometry("1024x600")
+        self.geometry("512x300")
 
         self.bg_frame = tk.Frame(self, bg="#00022F")
         self.bg_frame.pack(fill="both", expand=True)

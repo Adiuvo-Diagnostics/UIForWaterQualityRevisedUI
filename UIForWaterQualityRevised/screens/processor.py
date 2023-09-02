@@ -2,7 +2,7 @@ import time
 import numpy as np
 import pandas as pd
 from ctypes import *
-from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
+from .config_handler import ConfigHandler
 import RPi.GPIO as GPIO
 import json
 class Processor:

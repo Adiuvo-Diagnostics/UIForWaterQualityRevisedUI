@@ -100,7 +100,7 @@ double calib2periods = 10.0;
 double clockperiod = 1.0/clockfrequency;
 char sampleData[80];
 char export[]={"/export.csv"};
-char file_path[100];
+char file_path[1000];
 
 void main(int sec)
 {
@@ -142,6 +142,7 @@ void main(int sec)
 		tdcval = tdc_measure();
 		if(tdcval<=100.00)
 		{
+			printf("TDC value is less than or equal to 100. Storing value...\n");
 			tdc_store(tdcval);
 		}
 		i=0;
@@ -250,6 +251,7 @@ uint32_t tdc_long_recv(uint8_t addr)
 
 void tdc_init()
 {
+	printf("Initializing TDC...\n");
 	if(map_peripheral(&gpio) == -1) 
 	{
 	   printf("\rFailed to map the physical GPIO registers into the virtual memory space.\n");
@@ -293,6 +295,7 @@ void tdc_init()
 	tdc_send(TI_TDC720x_COARSE_COUNTER_OVL_REG,0x20);
 	printf("TI_TDC720x_COARSE_COUNTER_OVH_REG: %x\n",tdc_recv(TI_TDC720x_COARSE_COUNTER_OVH_REG));
 	printf("TI_TDC720x_COARSE_COUNTER_OVL_REG: %x\n",tdc_recv(TI_TDC720x_COARSE_COUNTER_OVL_REG));
+	printf("Exiting tdc_measure function...\n");
 }
 // void tdc_deinit()
 // {
@@ -322,7 +325,7 @@ double tdc_measure()
 		   // break;
 	   // }
 	};//Wait for start and stop
-	// printf("Measurement done\n");
+	printf("Measurement done\n");
 	double calib1 = (double)tdc_long_recv(TI_TDC720x_CALIBRATION1_REG);
 	double calib2 = (double)tdc_long_recv(TI_TDC720x_CALIBRATION2_REG);
 	//The following three lines of code are being moved out as global steps to reduce redundant delay.

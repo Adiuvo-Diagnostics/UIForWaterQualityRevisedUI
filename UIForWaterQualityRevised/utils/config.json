@@ -1,6 +1,6 @@
 {
-    "currentExperiment": "asdas_02092023120058",
-    "currentExperimentPath": "/Users/ragavendiranbalasubramanian/PycharmProjects/pythonProject/UIForWaterQualityRevised/screens/../RAW_DATA/02092023/asdas_02092023120058",
+    "currentExperiment": "ECOLI_02092023160530",
+    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/screens/../RAW_DATA/02092023/ECOLI_02092023160530",
     "acquisitionDurationInSecs": 5,
     "thresholdDeltaPeakCounts": 100,
     "thresholdDeltaTotalCounts": 1000,

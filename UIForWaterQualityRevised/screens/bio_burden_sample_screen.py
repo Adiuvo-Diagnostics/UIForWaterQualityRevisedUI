@@ -1,8 +1,8 @@
 import tkinter as tk
 import time
 from .base_screen import BaseScreen
-from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
-from UIForWaterQualityRevised.screens.processor import Processor
+from .config_handler import ConfigHandler
+from .processor import Processor
 import os
 class BioBurdenSample(BaseScreen):
     def __init__(self, master,app_instance):

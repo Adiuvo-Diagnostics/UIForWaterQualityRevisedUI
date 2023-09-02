@@ -2,8 +2,8 @@ import tkinter as tk
 import time
 import os
 from .base_screen import BaseScreen
-from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
-from UIForWaterQualityRevised.screens.processor import Processor
+from .config_handler import ConfigHandler
+from .processor import Processor
 BuzzerPin = 21 ###BCM is 21 PIN 40
 
 class ReferenceSample(BaseScreen):

@@ -3,7 +3,7 @@ from .base_screen import BaseScreen
 from .USKeyboard import USKeyboard
 import os
 from datetime import datetime
-from UIForWaterQualityRevised.screens.config_handler import ConfigHandler
+from .config_handler import ConfigHandler
 
 class NewExperiment(BaseScreen):
     def __init__(self, master, app_instance):
