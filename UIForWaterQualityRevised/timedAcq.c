@@ -164,29 +164,6 @@ void path(char letter, int clear)
 	}
 }
 
-// void blink()
-// {
-// 	if(map_peripheral(&gpio) == -1) 
-// 	{
-// 	   printf("\rFailed to map the physical GPIO registers into the virtual memory space.\n");
-// 	   // return 0;
-// 	}
-	  
-// 	// Define pin 7 as output
-// 	INP_GPIO(5);
-// 	OUT_GPIO(5);
-// 	while(1)
-// 	{
-// 	    printf("\rled on\n");
-// 	    GPIO_SET = 1 << 5;
-// 	    sleep(1);///1 sec on
-	  
-// 	    printf("\rled off\n");
-// 	    GPIO_CLR = 1 << 5;
-// 	    sleep(1);///1 sec off
-// 	} 
-// }
-// //struct bcm2835_peripheral gpio = {GPIO_BASE};
 
 int map_peripheral(struct bcm2835_peripheral *p)
 {
@@ -296,39 +273,19 @@ void tdc_init()
 	printf("TI_TDC720x_COARSE_COUNTER_OVL_REG: %x\n",tdc_recv(TI_TDC720x_COARSE_COUNTER_OVL_REG));
 	printf("Exiting tdc_measure function...\n");
 }
-// void tdc_deinit()
-// {
-// 	spi_close();
-// }
+
+
 
 double tdc_measure()
 {
-	// if(wiringPiSetup() == -1)
-	// {
-	// 	printf("setup wiringPi failed !\n");
-	// }
-	tdc_send(TI_TDC720x_CONFIG1_REG,0x01);//Start Measurement
-	//time_t tMeasStart=time(NULL);
-	//struct timeval tval_before, tval_after, tval_result;
-    //gettimeofday(&tval_before, NULL);
-	// while(digitalRead(tdc2_interu_pin))//Waiting for TDC 2 interrupt to deassert
+
+	tdc_send(TI_TDC720x_CONFIG1_REG,0x01);//Start 
 	while(GPIO_READ(tdc2_interu_pin))
 	{
-	   // gettimeofday(&tval_after, NULL); 	
-       // timersub(&tval_after, &tval_before, &tval_result);
-       // if (tval_result.tv_usec>200)//Detects if the TDC is idle for more than 200 microseconds (arrived by experimental testing) and breaks out
-	   // {
-		   // printf("TDC is idle fot too long!\n");
-		   // NoActivityOnTDC=true;
-		   // break;
-	   // }
+
 	};//Wait for start and stop
 	double calib1 = (double)tdc_long_recv(TI_TDC720x_CALIBRATION1_REG);
 	double calib2 = (double)tdc_long_recv(TI_TDC720x_CALIBRATION2_REG);
-	//The following three lines of code are being moved out as global steps to reduce redundant delay.
-	//double calib2periods = 10.0;
-	//double clockfrequency = 8000000.0;
-	//double clockperiod = 1.0 / clockfrequency;
 	double tdctime = (double)(tdc_long_recv(TI_TDC720x_TIME1_REG) & 0x7FFFFF);//Get time counter value
 	double calcount = (calib2 - calib1) / (calib2periods - 1.0);
 	double normLSB = (clockperiod / calcount)*1000000000;
@@ -344,7 +301,8 @@ void tdc_store(double value)
 	FILE *fptr = fopen(file_path,"a");
 	if(fptr == NULL)
 		printf("File open failed: %s",strerror(errno));
-	fprintf(fptr,"%lu,%f\n",getMicrotime(),value);
+	// fprintf(fptr,"%lu,%f\n",getMicrotime(),value);
+	fprintf(fptr,"%f\n",value);
 	fclose(fptr);
 }
 
@@ -442,18 +400,3 @@ int spi_txfr(uint8_t* data,int data_length)
 		data[i] = rxbuf[i];
     return 0;
 }
-
-// #include <stdio.h> 
-// int fun(int a,int b);
-// int call(int a,int e);
-
-// int call(int a,int e) 
-// { 
-//     // fun(a,e); 
-//     return(fun(a,e));
-// } 
-
-// int fun(int a,int b) 
-// { 
-//     return a*b; 
-// } 

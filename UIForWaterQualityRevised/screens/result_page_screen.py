@@ -25,7 +25,7 @@ class ResultPage(BaseScreen):
 
 
         # Read and parse JSON file
-        with open(os.path.join(current_directory,self.config_handler.set_current_experiment_path()+"/results.json"), "r") as file:
+        with open(os.path.join(current_directory,self.config_handler.get_current_experiment_path()+"/results.json"), "r") as file:
             data = json.load(file)
 
         if data["bioBurden"] == "Positive":
