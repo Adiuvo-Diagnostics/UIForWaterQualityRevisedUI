@@ -22,10 +22,10 @@ class ConfigHandler:
         return int(self.data.get("acquisitionDurationInSecs"))
 
     def get_threshold_delta_peak_counts(self):
-        return int(self.data.get("thresholdDeltaPeakCounts"))
+        return float(self.data.get("thresholdDeltaPeakCounts"))
 
     def get_threshold_delta_total_counts(self):
-        return int(self.data.get("thresholdDeltaTotalCounts"))
+        return float(self.data.get("thresholdDeltaTotalCounts"))
 
     def set_current_experiment(self, value):
         self.data["currentExperiment"] = value
@@ -40,9 +40,9 @@ class ConfigHandler:
         self.save_data()
 
     def set_threshold_delta_peak_counts(self, value):
-        self.data["thresholdDeltaPeakCounts"] = int(value)
+        self.data["thresholdDeltaPeakCounts"] = float(value)
         self.save_data()
 
     def set_threshold_delta_total_counts(self, value):
-        self.data["thresholdDeltaTotalCounts"] = int(value)
+        self.data["thresholdDeltaTotalCounts"] = float(value)
         self.save_data()

@@ -3,5 +3,6 @@
     "currentExperimentPath": "/Users/ragavendiranbalasubramanian/PycharmProjects/pythonProject/UIForWaterQualityRevised/screens/../RAW_DATA/02092023/asdas_02092023120058",
     "acquisitionDurationInSecs": 5,
     "thresholdDeltaPeakCounts": 100,
-    "thresholdDeltaTotalCounts": 1000
+    "thresholdDeltaTotalCounts": 1000,
+    "mode": "relative"
 }
