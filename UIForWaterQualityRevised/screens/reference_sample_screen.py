@@ -37,13 +37,14 @@ class ReferenceSample(BaseScreen):
 
     def start_reference_measurement(self):
         self.update_timer_label()
-        self.processor.StartTestForReference()
-        # Implement start_reference_measurement logic
-        # For demonstration purposes, let's simulate a measurement delay
         self.start_button.config(state="disabled")
+        self.processor.StartTestForReference()
         self.start_button.config(text="Measurement in progress...")
         self.after((self.config_handler.get_acquisition_duration_in_secs()*1000)+150,self.start_bio_burden_sample)  # Simulate measurement delay
-
+        
+        # Implement start_reference_measurement logic
+        # For demonstration purposes, let's simulate a measurement delay
+        
     def start_bio_burden_sample(self):
         from .bio_burden_sample_screen import BioBurdenSample  # Import inside the function
         self.app_instance.switch_screen(BioBurdenSample)

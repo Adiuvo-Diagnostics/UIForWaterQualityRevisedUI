@@ -1,8 +1,8 @@
 {
-    "currentExperiment": "hithere_02092023174831",
-    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/screens/../RAW_DATA/02092023/hithere_02092023174831",
+    "currentExperiment": "54dg_04092023143747",
+    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/screens/../RAW_DATA/04092023/54dg_04092023143747",
     "acquisitionDurationInSecs": 5,
-    "thresholdDeltaPeakCounts": 100.0,
-    "thresholdDeltaTotalCounts": 1000.0,
+    "thresholdDeltaPeakCounts": 0.1,
+    "thresholdDeltaTotalCounts": 0.08,
     "mode": "relative"
 }

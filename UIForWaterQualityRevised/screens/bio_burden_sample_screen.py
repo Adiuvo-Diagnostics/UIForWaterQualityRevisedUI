@@ -34,11 +34,11 @@ class BioBurdenSample(BaseScreen):
 
     def start_bio_burden_measurement(self):
         self.update_timer_label()
-        self.processor.StartTestForSample()
         self.start_button.config(state="disabled")
+        self.processor.StartTestForSample()
         self.start_button.config(text="Measurement in progress...")
         self.after((self.config_handler.get_acquisition_duration_in_secs()*1000)+150, self.navTOResults)  # Simulate measurement delay
-
+        
 
     def navTOResults(self):
         self.processor.Result()
