@@ -7,7 +7,7 @@ class ViewExperimentPage(BaseScreen):
     def __init__(self, master, app_instance):
         super().__init__(master, "", app_instance, background="../images/exps.png")
         self.current_directory = os.path.dirname(os.path.abspath(__file__))
-        self.raw_data_path = os.path.join(self.current_directory, "../RAW_DATA")
+        self.raw_data_path = os.path.abspath(os.path.join(self.current_directory, "../RAW_DATA"))
 
         # Calculate dimensions
         screen_width = self.winfo_screenwidth()
@@ -84,9 +84,9 @@ class ViewExperimentPage(BaseScreen):
         date_folder_path = os.path.join(self.raw_data_path, date_folder)
         subfolders = os.listdir(date_folder_path)
         for i, subfolder in enumerate(subfolders):
-            subfolder_button = tk.Button(self.subfolder_frame.scrollable_frame, text=subfolder, width=20, anchor='w', command=lambda folder=subfolder: self.export_item(folder))
+            subfolder_button = tk.Button(self.subfolder_frame.scrollable_frame, text=subfolder, width=20, anchor='w', command=lambda folder=os.path.join(date_folder, subfolder): self.export_item(folder))
             subfolder_button.pack(fill=tk.X)
-            export_button = tk.Button(self.subfolder_frame.scrollable_frame, text="Export", command=lambda folder=subfolder: self.export_item(folder))
+            export_button = tk.Button(self.subfolder_frame.scrollable_frame, text="Export", command=lambda folder=os.path.join(date_folder, subfolder): self.export_item(folder))
             export_button.pack(fill=tk.X)
             if i < len(subfolders) - 1:  # Don't add line after the last subfolder
                 line = tk.Canvas(self.subfolder_frame.scrollable_frame, height=1, bg="white")

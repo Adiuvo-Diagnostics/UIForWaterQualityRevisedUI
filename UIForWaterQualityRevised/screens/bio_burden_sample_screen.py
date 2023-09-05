@@ -4,6 +4,8 @@ from .base_screen import BaseScreen
 from .config_handler import ConfigHandler
 from .processor import Processor
 import os
+import threading
+
 class BioBurdenSample(BaseScreen):
     def __init__(self, master,app_instance):
         super().__init__(master, "BioBurden Sample", app_instance, background="../images/sample.png")
@@ -26,18 +28,20 @@ class BioBurdenSample(BaseScreen):
         self.remaining_time = self.config_handler.get_acquisition_duration_in_secs()  # Initial timer value in seconds
         print(self.remaining_time)
     def update_timer_label(self):
-        self.timer_label.config(text=f"Timer: {self.remaining_time} seconds")
-        if self.remaining_time > 0:
-            self.remaining_time -= 1
-            self.after(1000, self.update_timer_label)  # Update timer label every second
+        self.timer_label.config(text=f"Wait for {self.remaining_time} seconds")
+        # if self.remaining_time > 0:
+        #     self.remaining_time -= 1
+        #     self.after(1000, self.update_timer_label)  # Update timer label every second
 
 
     def start_bio_burden_measurement(self):
         self.update_timer_label()
         self.start_button.config(state="disabled")
+        # timerLabel.start()
         self.processor.StartTestForSample()
         self.start_button.config(text="Measurement in progress...")
-        self.after((self.config_handler.get_acquisition_duration_in_secs()*1000)+150, self.navTOResults)  # Simulate measurement delay
+        # testForSample.start()
+        self.after((1000)+150, self.navTOResults)  # Simulate measurement delay
         
 
     def navTOResults(self):

@@ -44,8 +44,9 @@ class NewExperiment(BaseScreen):
         if experiment_name:
             currentExperiment=experiment_name+"_"+formatted_dateTime
             self.config_handler.set_current_experiment(currentExperiment)
-            self.config_handler.set_current_experiment_path(self.curr_dir+"/../RAW_DATA/"+formatted_date+"/"+currentExperiment)
-            print(self.curr_dir+"/../RAW_DATA/"+formatted_date+"/"+currentExperiment)
+            currentExRootPath = os.path.abspath(os.path.join(self.curr_dir, "../RAW_DATA/"+formatted_date+"/"+currentExperiment))
+            self.config_handler.set_current_experiment_path(currentExRootPath)
+            print(currentExRootPath)
             self.app_instance.switch_screen(ReferenceSample)
 
     def back_to_home(self):

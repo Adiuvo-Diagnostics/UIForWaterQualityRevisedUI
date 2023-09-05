@@ -20,12 +20,12 @@ class Processor:
             GPIO.setmode(GPIO.BCM)  # Broadcom pin-numbering scheme
             GPIO.setup(21, GPIO.OUT)  # LED pin set as output
             # Initialization code here
-            cls._instance.config_handler = ConfigHandler()
-            cls._instance.thesPeak = cls._instance.config_handler.get_threshold_delta_peak_counts()
-            cls._instance.thesTotal = cls._instance.config_handler.get_threshold_delta_total_counts()
-            cls._instance.samplingTimeInSeconds = cls._instance.config_handler.get_acquisition_duration_in_secs()
-            cls._instance.DataforSaline = []
-            cls._instance.DataforBioBurden = []
+        cls._instance.config_handler = ConfigHandler()
+        cls._instance.thesPeak = cls._instance.config_handler.get_threshold_delta_peak_counts()
+        cls._instance.thesTotal = cls._instance.config_handler.get_threshold_delta_total_counts()
+        cls._instance.samplingTimeInSeconds = cls._instance.config_handler.get_acquisition_duration_in_secs()
+        cls._instance.DataforSaline = []
+        cls._instance.DataforBioBurden = []
 
         return cls._instance
 
@@ -50,10 +50,12 @@ class Processor:
         libCalc.path(ord('\0'), 1)
         libCalc.main(self.samplingTimeInSeconds)
         self.BuzzerSound()
-        self.ReferenceAnalysis()
+        
 
     def ReferenceAnalysis(self):
         data = pd.read_csv(self.config_handler.get_current_experiment_path()+"/ref.csv")
+        print(self.config_handler.get_current_experiment_path())
+        print(data)
         datacounts, bins = np.histogram(data['tof'], bins=np.arange(0, 100, 0.2))
         datacounts = self.removeOffset(datacounts)
         self.DataforReference.append(max(datacounts))
@@ -71,10 +73,12 @@ class Processor:
         libCalc.path(ord('\0'), 1)
         libCalc.main(self.samplingTimeInSeconds)
         self.BuzzerSound()
-        self.SampleAnalysis()
+        
 
     def SampleAnalysis(self):
         data = pd.read_csv(self.config_handler.get_current_experiment_path()+"/sam.csv")
+        print(self.config_handler.get_current_experiment_path())
+        print(data)
         datacounts, bins = np.histogram(data['tof'], bins=np.arange(0, 100, 0.2))
         datacounts = self.removeOffset(datacounts)
         self.DataforSample.append(max(datacounts))
@@ -95,7 +99,11 @@ class Processor:
         return data - np.mean(data[-tailLen:])
 
     def Result(self):
+        self.ReferenceAnalysis()
+        self.SampleAnalysis()
+        
         output_file = self.config_handler.get_current_experiment_path() + "/results.json"
+        print(output_file)
 
         # Determine the result
         if (((self.DataforSample[0] - self.DataforReference[0]) / self.DataforReference[0]) > self.thesPeak) or \

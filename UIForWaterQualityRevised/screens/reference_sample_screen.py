@@ -5,6 +5,7 @@ from .base_screen import BaseScreen
 from .config_handler import ConfigHandler
 from .processor import Processor
 BuzzerPin = 21 ###BCM is 21 PIN 40
+import threading
 
 class ReferenceSample(BaseScreen):
 
@@ -30,17 +31,19 @@ class ReferenceSample(BaseScreen):
         print(self.remaining_time)
 
     def update_timer_label(self):
-        self.timer_label.config(text=f"Timer: {self.remaining_time} seconds")
-        if self.remaining_time > 0:
-            self.remaining_time -= 1
-            self.after(1000, self.update_timer_label)  # Update timer label every second
+        self.timer_label.config(text=f"Wait for {self.remaining_time} seconds")
+        # if self.remaining_time > 0:
+        #     self.remaining_time -= 1
+        #     self.after(1000, self.update_timer_label)  # Update timer label every second
 
     def start_reference_measurement(self):
         self.update_timer_label()
         self.start_button.config(state="disabled")
+        # timerLabel.start()
         self.processor.StartTestForReference()
         self.start_button.config(text="Measurement in progress...")
-        self.after((self.config_handler.get_acquisition_duration_in_secs()*1000)+150,self.start_bio_burden_sample)  # Simulate measurement delay
+        # testForReference.start()
+        self.after((1000)+150,self.start_bio_burden_sample)  # Simulate measurement delay
         
         # Implement start_reference_measurement logic
         # For demonstration purposes, let's simulate a measurement delay
