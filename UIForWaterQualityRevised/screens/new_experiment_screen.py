@@ -19,7 +19,7 @@ class NewExperiment(BaseScreen):
         #NEW EXPERIMENT
         start_image_path = os.path.join(current_directory, "../buttons/start.png")
         self.start_image = tk.PhotoImage(file=start_image_path)
-        start_button = tk.Button(self, image=self.start_image, command=self.start_experiment, borderwidth=0)
+        start_button = tk.Button(self, image=self.start_image, command=self.start_experiment, borderwidth=0, highlightthickness=0)
         start_button.image = self.start_image  # Keep a reference to avoid garbage collection
         start_button.place(relx=0.25, rely=0.3)  # Center the button
 
@@ -27,7 +27,7 @@ class NewExperiment(BaseScreen):
         # Back button
         back_image_path = os.path.join(current_directory, "../buttons/back.png")
         self.start_image = tk.PhotoImage(file=back_image_path)
-        back_button = tk.Button(self, image=self.start_image, command=self.back_to_home, borderwidth=0)
+        back_button = tk.Button(self, image=self.start_image, command=self.back_to_home, borderwidth=0, highlightthickness=0)
         back_button.image = self.start_image  # Keep a reference to avoid garbage collection
         back_button.place(relx=0.45, rely=0.3)  # Center the button
 

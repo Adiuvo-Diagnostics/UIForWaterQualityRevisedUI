@@ -57,7 +57,7 @@ class ConfigPage(BaseScreen):
         current_directory = os.path.dirname(os.path.abspath(__file__))
         save_image_path = os.path.join(current_directory, "../buttons/save.png")
         self.save_image = tk.PhotoImage(file=save_image_path)
-        save_button = tk.Button(self, image=self.save_image, command=self.save_config, borderwidth=0)
+        save_button = tk.Button(self, image=self.save_image, command=self.save_config, borderwidth=0, highlightthickness=0)
         save_button.image = self.save_image  # Keep a reference to avoid garbage collection
         save_button.place(relx=0.30, rely=0.7)  # Center the button
 
@@ -66,7 +66,7 @@ class ConfigPage(BaseScreen):
         current_directory = os.path.dirname(os.path.abspath(__file__))
         home_image_path = os.path.join(current_directory, "../buttons/homeButton.png")
         self.home_image = tk.PhotoImage(file=home_image_path)
-        home_button = tk.Button(self, image=self.home_image, command=self.back_to_home, borderwidth=0)
+        home_button = tk.Button(self, image=self.home_image, command=self.back_to_home, borderwidth=0, highlightthickness=0)
         home_button.image = self.home_image  # Keep a reference to avoid garbage collection
         home_button.place(relx=0.55, rely=0.7)  # Center the button
 

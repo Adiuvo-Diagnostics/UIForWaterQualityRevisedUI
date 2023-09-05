@@ -10,7 +10,7 @@ class StartScreen(BaseScreen):
         self.start_image = tk.PhotoImage(file=start_image_path)
 
         # Create a button with the image
-        start_button = tk.Button(self, image=self.start_image, command=self.NavToHome, borderwidth=0,background=None)
+        start_button = tk.Button(self, image=self.start_image, command=self.NavToHome, borderwidth=0, highlightthickness=0)
         start_button.image = self.start_image  # Keep a reference to avoid garbage collection
         start_button.place(relx=0.15, rely=0.6, anchor="w")  # Center the button
 

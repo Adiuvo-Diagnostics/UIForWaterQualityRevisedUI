@@ -22,7 +22,7 @@ class ReferenceSample(BaseScreen):
         # NEW EXPERIMENT
         start_button_path = os.path.join(current_directory, "../buttons/start-measurement.png")
         self.start_image = tk.PhotoImage(file=start_button_path)
-        self.start_button = tk.Button(self, image=self.start_image, command=self.start_reference_measurement, borderwidth=0)
+        self.start_button = tk.Button(self, image=self.start_image, command=self.start_reference_measurement, borderwidth=0, highlightthickness=0)
         self.start_button.image = self.start_image  # Keep a reference to avoid garbage collection
         self.start_button.place(relx=0.37, rely=0.7)  # Center the button
 
