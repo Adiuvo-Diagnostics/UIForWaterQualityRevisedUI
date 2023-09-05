@@ -1,6 +1,6 @@
 {
-    "currentExperiment": "wera1_05092023175014",
-    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/RAW_DATA/05092023/wera1_05092023175014",
+    "currentExperiment": "\tPSEUDO_05092023181358",
+    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/RAW_DATA/05092023/\tPSEUDO_05092023181358",
     "acquisitionDurationInSecs": 60,
     "thresholdDeltaPeakCounts": 0.1,
     "thresholdDeltaTotalCounts": 0.08,
