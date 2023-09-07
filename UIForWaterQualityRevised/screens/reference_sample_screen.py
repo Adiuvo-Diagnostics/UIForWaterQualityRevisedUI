@@ -47,7 +47,7 @@ class ReferenceSample(BaseScreen):
         
         # Implement start_reference_measurement logic
         # For demonstration purposes, let's simulate a measurement delay
-        
+                
     def start_bio_burden_sample(self):
         from .bio_burden_sample_screen import BioBurdenSample  # Import inside the function
         self.app_instance.switch_screen(BioBurdenSample)
