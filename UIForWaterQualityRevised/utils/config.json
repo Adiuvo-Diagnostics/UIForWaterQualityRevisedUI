@@ -4,5 +4,9 @@
     "acquisitionDurationInSecs": 60,
     "thresholdDeltaPeakCounts": 0.1,
     "thresholdDeltaTotalCounts": 0.08,
+    "mu1": 0.161,
+    "mu2": 0.162,
+    "std1": 0.240,
+    "std2": 0.222,
     "mode": "relative"
 }

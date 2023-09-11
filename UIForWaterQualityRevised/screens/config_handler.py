@@ -27,6 +27,18 @@ class ConfigHandler:
     def get_threshold_delta_total_counts(self):
         return float(self.data.get("thresholdDeltaTotalCounts"))
 
+    def get_mu1(self):
+        return float(self.data.get("mu1"))
+
+    def get_mu2(self):
+        return float(self.data.get("mu2"))
+
+    def get_std1(self):
+        return float(self.data.get("std1"))
+
+    def get_std2(self):
+        return float(self.data.get("std2"))
+
     def set_current_experiment(self, value):
         self.data["currentExperiment"] = value
         self.save_data()
@@ -45,4 +57,20 @@ class ConfigHandler:
 
     def set_threshold_delta_total_counts(self, value):
         self.data["thresholdDeltaTotalCounts"] = float(value)
+        self.save_data()
+
+    def set_mu1(self, value):
+        self.data["mu1"] = float(value)
+        self.save_data()
+
+    def set_mu2(self, value):
+        self.data["mu2"] = float(value)
+        self.save_data()
+
+    def set_std1(self, value):
+        self.data["std1"] = float(value)
+        self.save_data()
+
+    def set_std2(self, value):
+        self.data["std2"] = float(value)
         self.save_data()
