@@ -1,11 +1,12 @@
-import tkinter as tk
-import time
 import os
+import tkinter as tk
+
 from .base_screen import BaseScreen
 from .config_handler import ConfigHandler
 from .processor import Processor
+
 BuzzerPin = 21 ###BCM is 21 PIN 40
-import threading
+
 
 class ReferenceSample(BaseScreen):
 
@@ -26,6 +27,13 @@ class ReferenceSample(BaseScreen):
         self.start_button = tk.Button(self, image=self.start_image, command=self.start_reference_measurement, borderwidth=0, highlightthickness=0)
         self.start_button.image = self.start_image  # Keep a reference to avoid garbage collection
         self.start_button.place(relx=0.37, rely=0.7)  # Center the button
+
+        # Home Button
+        home_image_path = os.path.join(current_directory, "../buttons/homeButton.png")
+        self.home_image = tk.PhotoImage(file=home_image_path)
+        self.home_button = tk.Button(self, image=self.home_image, command=self.back_to_home, borderwidth=0,
+                                     highlightthickness=0)
+        self.home_button.place(relx=0.45, rely=0.7)
 
         self.remaining_time = self.config_handler.get_acquisition_duration_in_secs()  # Initial timer value in seconds
         print(self.remaining_time)
@@ -51,5 +59,9 @@ class ReferenceSample(BaseScreen):
     def start_bio_burden_sample(self):
         from .bio_burden_sample_screen import BioBurdenSample  # Import inside the function
         self.app_instance.switch_screen(BioBurdenSample)
+
+    def back_to_home(self):
+        from .home_screen import HomeScreen  # Import inside the function
+        self.app_instance.switch_screen(HomeScreen)
 
 # Note: You need to implement the actual timer and reference measurement logic
