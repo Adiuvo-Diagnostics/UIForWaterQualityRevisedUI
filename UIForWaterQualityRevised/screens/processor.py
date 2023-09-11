@@ -6,6 +6,7 @@ from .config_handler import ConfigHandler
 import RPi.GPIO as GPIO
 import json
 import os
+import pickle
 class Processor:
     _instance = None
     BuzzerPin = 21
@@ -101,13 +102,24 @@ class Processor:
     def Result(self):
         self.ReferenceAnalysis()
         self.SampleAnalysis()
-        
+        MODEL_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                       "../model/BioburdenDetector_v1.0.sav")
+        model = pickle.load(open(MODEL_FILE_PATH, 'rb'))
         output_file = self.config_handler.get_current_experiment_path() + "/results.json"
         print(output_file)
+        x1 = (self.DataforSample[0] - self.DataforReference[0]) / self.DataforReference[0]
+        x2 = (self.DataforSample[1] - self.DataforReference[1]) / self.DataforReference[1]
+        X1 = (x1 - self.config_handler.get_mu1()) / self.config_handler.set_std1()
+        X2 = (x2 - self.config_handler.get_mu2()) / self.config_handler.set_std2()
+        X1 = np.array([X1])
+        X2 = np.array([X2])
+        XOUT = np.hstack((X1.reshape(-1, 1), X2.reshape(-1, 1)))
+        bioburden_present = model.predict(XOUT)
+
+
 
         # Determine the result
-        if (((self.DataforSample[0] - self.DataforReference[0]) / self.DataforReference[0]) > self.thesPeak) or \
-                (((self.DataforSample[1] - self.DataforReference[1]) / self.DataforReference[1]) > self.thesTotal):
+        if (bioburden_present == 1):
             result_status = "Positive"
         else:
             result_status = "Negative"

@@ -3,6 +3,7 @@ from .base_screen import BaseScreen
 import os
 import json
 from .config_handler import ConfigHandler
+import pickle
 
 class ResultPage(BaseScreen):
     def __init__(self, master, app_instance):
@@ -24,6 +25,7 @@ class ResultPage(BaseScreen):
 
 
 
+
         # Read and parse JSON file
         with open(os.path.join(current_directory,self.config_handler.get_current_experiment_path()+"/results.json"), "r") as file:
             data = json.load(file)
@@ -42,6 +44,7 @@ class ResultPage(BaseScreen):
         self.refTotalCount = self.create_text_box(0.65, 0.40, str(int(data["refTotalCount"])))
         self.samPeakCount = self.create_text_box(0.39, 0.60, str(int(data["samPeakCount"])))
         self.samTotalCount = self.create_text_box(0.65, 0.60, str(int(data["samTotalCount"])))
+
     def back_to_home(self):
         from .home_screen import HomeScreen  # Import inside the function
         self.app_instance.switch_screen(HomeScreen)
