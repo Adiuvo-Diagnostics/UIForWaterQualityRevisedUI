@@ -34,6 +34,8 @@ class USKeyboard(tk.Frame):
         self.destroy()  # This will "hide" the keyboard
 
     def press(self, key):
+        if self.active_text_widget:  # Check if self.active_text_widget is not None
+            self.active_text_widget.insert(tk.END, key.lower())
         if key == 'Backspace':
             # Delete the last character
             self.active_text_widget.delete(len(self.active_text_widget.get())-1)

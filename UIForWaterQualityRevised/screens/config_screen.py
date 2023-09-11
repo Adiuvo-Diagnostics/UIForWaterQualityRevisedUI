@@ -16,14 +16,15 @@ class ConfigPage(BaseScreen):
         if hasattr(self, "keyboard"):
             self.keyboard.destroy()
         self.keyboard = USKeyboard(self, active_text_widget=event.widget)
-        self.keyboard.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
+        self.keyboard.place(anchor="s", relx=0.5, rely=1.0)
+
 
     def __init__(self, master, app_instance):
         super().__init__(master, "", app_instance, background="../images/config.png")
         self.current_directory = os.path.dirname(os.path.abspath(__file__))
         self.config_handler = ConfigHandler()
         self.keyboard = USKeyboard(self)
-        self.keyboard.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+        self.keyboard.place(anchor="s", relx=0.5, rely=1.0)
         self.keyboard.withdraw()
 
 
