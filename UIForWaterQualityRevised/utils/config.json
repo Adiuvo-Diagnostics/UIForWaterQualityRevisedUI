@@ -1,12 +1,12 @@
 {
     "currentExperiment": "\tPSEUDO_05092023181358",
     "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/RAW_DATA/05092023/\tPSEUDO_05092023181358",
-    "acquisitionDurationInSecs": 60,
-    "thresholdDeltaPeakCounts": 0.1,
-    "thresholdDeltaTotalCounts": 0.08,
-    "mu1": 0.161,
-    "mu2": 0.162,
-    "std1": 0.240,
-    "std2": 0.222,
+    "acquisitionDurationInSecs": 601,
+    "thresholdDeltaPeakCounts": 0.13,
+    "thresholdDeltaTotalCounts": 0.089,
+    "mu1": 0.1615,
+    "mu2": 0.1627,
+    "std1": 0.24028,
+    "std2": 0.2229,
     "mode": "relative"
 }
