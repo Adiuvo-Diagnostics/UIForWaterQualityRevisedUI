@@ -1,12 +1,13 @@
 import tkinter as tk
 from .base_screen import BaseScreen
-from .USKeyboard import USKeyboard
+from .keyboard import Keyboard
 import os
 from datetime import datetime
 from .config_handler import ConfigHandler
 
 class NewExperiment(BaseScreen):
     def __init__(self, master, app_instance):
+        self.keyboard_instance = None
         super().__init__(master, "", app_instance, background="../images/new.png")
         self.curr_dir = os.path.dirname(os.path.abspath(__file__))
         current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -54,10 +55,13 @@ class NewExperiment(BaseScreen):
         self.app_instance.switch_screen(HomeScreen)
 
     def show_keyboard(self, event):
-        # If keyboard already exists, bring it to the front
-        if hasattr(self, 'keyboard'):
-            self.keyboard.lift()
-        else:
-            # Create and display the custom USKeyboard
-            self.keyboard = USKeyboard(self, active_text_widget=self.experiment_name_entry)
-            self.keyboard.pack(side=tk.BOTTOM)  # Display the keyboard at the bottom
+        if not self.keyboard_instance:
+            self.keyboard_instance = Keyboard(self, event.widget)
+            self.keyboard_instance.grid(row=1, column=0, columnspan=2, sticky="we")
+        elif not self.keyboard_instance.winfo_exists():  # Check if the widget still exists
+            self.keyboard_instance.destroy()  # Destroy the old instance
+            self.keyboard_instance = Keyboard(self, event.widget)  # Create a new instance
+            self.keyboard_instance.grid(row=1, column=0, columnspan=2, sticky="we")
+        widget_x = 10
+        widget_y = 400
+        self.keyboard_instance.show(widget_x, widget_y)
