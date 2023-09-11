@@ -109,8 +109,8 @@ class Processor:
         print(output_file)
         x1 = (self.DataforSample[0] - self.DataforReference[0]) / self.DataforReference[0]
         x2 = (self.DataforSample[1] - self.DataforReference[1]) / self.DataforReference[1]
-        X1 = (x1 - self.config_handler.get_mu1()) / self.config_handler.set_std1()
-        X2 = (x2 - self.config_handler.get_mu2()) / self.config_handler.set_std2()
+        X1 = (x1 - self.config_handler.get_mu1()) / self.config_handler.get_std1()
+        X2 = (x2 - self.config_handler.get_mu2()) / self.config_handler.get_std2()
         X1 = np.array([X1])
         X2 = np.array([X2])
         XOUT = np.hstack((X1.reshape(-1, 1), X2.reshape(-1, 1)))
