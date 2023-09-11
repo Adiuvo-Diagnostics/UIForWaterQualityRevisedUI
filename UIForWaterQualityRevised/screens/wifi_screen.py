@@ -21,6 +21,11 @@ class WifiPage(BaseScreen):
         self.network_listbox.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
         self.network_listbox.bind('<<ListboxSelect>>', self.on_network_select)
 
+        self.home_image_path = os.path.join(self.current_directory, "../buttons/homeButton.png")
+        self.home_image = tk.PhotoImage(file=self.home_image_path)
+        self.home_button = tk.Button(self, image=self.home_image, command=self.back_to_home, borderwidth=0, highlightthickness=0)
+        self.home_button.place(relx=0.6, rely=0.85)  # You can adjust the position as required
+        
         # Password Entry
         self.password_label = tk.Label(self, text="Enter Password")
         self.password_label.pack(pady=5)
@@ -58,11 +63,11 @@ class WifiPage(BaseScreen):
         try:
             # Update wpa_supplicant.conf with network details
             with open("/etc/wpa_supplicant/wpa_supplicant.conf", "a") as conf_file:
-                conf_file.write(f'network={{ssid="{selected_network}"\npsk="{password}"}}')
+                conf_file.write(f'network={{\n\tssid="{selected_network}"\n\tpsk="{password}"\n\tkey_mgmt=WPA-PSK\n}}')
 
             # Restart the network interface
             subprocess.call(['sudo', 'wpa_cli', 'reconfigure'])
-            messagebox.showinfo("Success", f"Connected to {selected_network}")
+            messagebox.showinfo("Success", f"ADDED {selected_network} to wpa_supplicant.")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to connect to {selected_network}. Error: {e}")
 
@@ -70,3 +75,7 @@ class WifiPage(BaseScreen):
         if not self.keyboard_instance:
             self.keyboard_instance = Keyboard(self, event.widget)
             self.keyboard_instance.pack(side=tk.BOTTOM, fill=tk.BOTH)
+    
+    def back_to_home(self):
+        from .home_screen import HomeScreen  # Import inside the function
+        self.app_instance.switch_screen(HomeScreen)
