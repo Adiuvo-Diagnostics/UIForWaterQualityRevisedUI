@@ -1,7 +1,7 @@
 {
-    "currentExperiment": "pseu1_11092023172625",
-    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/RAW_DATA/11092023/pseu1_11092023172625",
-  "acquisitionDurationInSecs": 5,
+    "currentExperiment": "sam1_11092023202324",
+    "currentExperimentPath": "/home/pi/UIForWaterQualityRevisedUI/UIForWaterQualityRevised/RAW_DATA/11092023/sam1_11092023202324",
+    "acquisitionDurationInSecs": 5,
     "thresholdDeltaPeakCounts": 0.13,
     "thresholdDeltaTotalCounts": 0.089,
     "mu1": 0.161,

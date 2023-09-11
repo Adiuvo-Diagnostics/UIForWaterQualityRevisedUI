@@ -17,7 +17,7 @@ class ReferenceSample(BaseScreen):
         self.config_handler=ConfigHandler()
         self.processor = Processor()
 
-        self.timer_label = tk.Label(self, text="Timer: "+str(self.config_handler.get_acquisition_duration_in_secs())+" seconds")
+        self.timer_label = tk.Label(self, text="Wait for "+str(self.config_handler.get_acquisition_duration_in_secs())+" seconds")
         self.timer_label.place(relx=0.45, rely=0.50)
 
 
@@ -26,14 +26,14 @@ class ReferenceSample(BaseScreen):
         self.start_image = tk.PhotoImage(file=start_button_path)
         self.start_button = tk.Button(self, image=self.start_image, command=self.start_reference_measurement, borderwidth=0, highlightthickness=0)
         self.start_button.image = self.start_image  # Keep a reference to avoid garbage collection
-        self.start_button.place(relx=0.37, rely=0.7)  # Center the button
+        self.start_button.place(relx=0.25, rely=0.7)  # Center the button
 
         # Home Button
         home_image_path = os.path.join(current_directory, "../buttons/homeButton.png")
         self.home_image = tk.PhotoImage(file=home_image_path)
         self.home_button = tk.Button(self, image=self.home_image, command=self.back_to_home, borderwidth=0,
                                      highlightthickness=0)
-        self.home_button.place(relx=0.45, rely=0.7)
+        self.home_button.place(relx=0.55, rely=0.7)
 
         self.remaining_time = self.config_handler.get_acquisition_duration_in_secs()  # Initial timer value in seconds
         print(self.remaining_time)

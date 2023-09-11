@@ -33,7 +33,7 @@ class WifiPage(BaseScreen):
         self.password_entry.pack(pady=5)
 
         # Connect Button
-        self.connect_btn = tk.Button(self, text="Connect", command=self.connect_to_network)
+        self.connect_btn = tk.Button(self, text="Add to WPA_SUPPLICANT", command=self.connect_to_network)
         self.connect_btn.pack(pady=10)
 
         # Load networks on initialization
@@ -67,7 +67,7 @@ class WifiPage(BaseScreen):
 
             # Restart the network interface
             subprocess.call(['sudo', 'wpa_cli', 'reconfigure'])
-            messagebox.showinfo("Success", f"ADDED {selected_network} to wpa_supplicant.")
+            messagebox.showinfo("Success", f"ADDED {selected_network} to wpa_supplicant. Please reboot for Auto Connect.")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to connect to {selected_network}. Error: {e}")
 

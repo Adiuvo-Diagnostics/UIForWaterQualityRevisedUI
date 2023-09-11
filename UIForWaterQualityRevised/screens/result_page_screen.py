@@ -33,9 +33,13 @@ class ResultPage(BaseScreen):
         if data["bioBurden"] == "Positive":
             self.result_text.config(fg="red")
             self.result_text.insert(tk.END, "BioBurden Positive")
-        else:
+        elif data["bioBurden"] == "Negative" :
             self.result_text.config(fg="green")
             self.result_text.insert(tk.END, "BioBurden Negative")
+        else:
+            self.result_text.config(fg="green")
+            self.result_text.insert(tk.END, "NaN error!!")
+
         self.result_text.config(state=tk.DISABLED)
 
 
