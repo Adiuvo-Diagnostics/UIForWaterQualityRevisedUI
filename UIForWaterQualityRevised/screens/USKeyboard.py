@@ -84,3 +84,6 @@ class USKeyboard(tk.Frame):
                         else:
                             # If only Caps Lock is active, make it uppercase
                             button.config(text=text.lower())
+
+    def withdraw(self):
+        self.pack_forget()
