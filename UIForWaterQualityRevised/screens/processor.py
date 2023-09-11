@@ -22,8 +22,6 @@ class Processor:
             GPIO.setup(21, GPIO.OUT)  # LED pin set as output
             # Initialization code here
         cls._instance.config_handler = ConfigHandler()
-        cls._instance.thesPeak = cls._instance.config_handler.get_threshold_delta_peak_counts()
-        cls._instance.thesTotal = cls._instance.config_handler.get_threshold_delta_total_counts()
         cls._instance.samplingTimeInSeconds = cls._instance.config_handler.get_acquisition_duration_in_secs()
         cls._instance.DataforSaline = []
         cls._instance.DataforBioBurden = []
@@ -115,9 +113,6 @@ class Processor:
         X2 = np.array([X2])
         XOUT = np.hstack((X1.reshape(-1, 1), X2.reshape(-1, 1)))
         bioburden_present = model.predict(XOUT)
-
-
-
         # Determine the result
         if (bioburden_present == 1):
             result_status = "Positive"
@@ -132,8 +127,10 @@ class Processor:
             "samTotalCount": self.DataforSample[1],
             "bioBurden": result_status,
             "acquisitionDurationInSecs": self.config_handler.get_acquisition_duration_in_secs(),
-            "thresholdDeltaPeakCounts": self.thesPeak,
-            "thresholdDeltaTotalCounts": self.thesTotal
+            "mu1": self.config_handler.get_mu1(),
+            "mu2": self.config_handler.get_mu2(),
+            "std1": self.config_handler.get_std1(),
+            "std2": self.config_handler.get_std2()
         }
 
         # Write the data to the JSON file
