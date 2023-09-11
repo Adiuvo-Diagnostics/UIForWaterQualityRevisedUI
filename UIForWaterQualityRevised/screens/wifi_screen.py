@@ -1,55 +1,72 @@
 import tkinter as tk
-from tkinter import simpledialog, messagebox
-import subprocess
+import tkinter.messagebox as messagebox
+from .base_screen import BaseScreen
 import os
+import subprocess
+import re
+from .keyboard import Keyboard
 
 
-class WifiScreen(simpledialog.Dialog):
-    def __init__(self, parent):
-        super().__init__(parent)
+class WifiPage(BaseScreen):
+    def __init__(self, master, app_instance):
+        super().__init__(master, "", app_instance, background="../images/empty.png")
+        self.current_directory = os.path.dirname(os.path.abspath(__file__))
 
-        self.title("WiFi Screen")
+        # Title Label
+        self.title_label = tk.Label(self, text="Available Networks")
+        self.title_label.pack(pady=10)
 
-        # Check WiFi status
-        self.wifi_status_label = tk.Label(self, text="WiFi Status: Checking...")
-        self.wifi_status_label.pack(pady=10)
-
-        # List of available networks
+        # Listbox for networks
         self.network_listbox = tk.Listbox(self)
-        self.network_listbox.pack(pady=10)
+        self.network_listbox.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
+        self.network_listbox.bind('<<ListboxSelect>>', self.on_network_select)
 
-        # Connect button
+        # Password Entry
+        self.password_label = tk.Label(self, text="Enter Password")
+        self.password_label.pack(pady=5)
+        self.password_entry = tk.Entry(self, show='*')
+        self.password_entry.pack(pady=5)
+
+        # Connect Button
         self.connect_btn = tk.Button(self, text="Connect", command=self.connect_to_network)
         self.connect_btn.pack(pady=10)
 
-        # Disconnect button
-        self.disconnect_btn = tk.Button(self, text="Disconnect", command=self.disconnect_from_network)
-        self.disconnect_btn.pack(pady=10)
+        # Load networks on initialization
+        self.load_networks()
+        self.keyboard_instance = None  # Initialize keyboard instance as None
 
-        # Forget network button
-        self.forget_btn = tk.Button(self, text="Forget Network", command=self.forget_network)
-        self.forget_btn.pack(pady=10)
+    def load_networks(self):
+        # Run the command to get available networks
+        try:
+            result = subprocess.check_output(['sudo', 'iwlist', 'wlan0', 'scan'])
+            networks = re.findall(r'ESSID:"(.*?)"', result.decode('utf-8'))
+            for net in networks:
+                self.network_listbox.insert(tk.END, net)
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to retrieve networks. Error: {e}")
 
-        self.update_wifi_status()
-
-    def update_wifi_status(self):
-        # Placeholder for now. In a real implementation, this would check the WiFi status.
-        self.wifi_status_label.config(text="WiFi Status: Not Connected")
+    def on_network_select(self, event):
+        # Show the keyboard for the password entry when a network is selected
+        if not self.keyboard_instance:
+            self.keyboard_instance = Keyboard(self, self.password_entry)
+            self.keyboard_instance.pack(side=tk.BOTTOM, fill=tk.BOTH)
 
     def connect_to_network(self):
-        # Placeholder. In a real implementation, this would connect to the selected network.
-        pass
+        selected_network = self.network_listbox.get(self.network_listbox.curselection())
+        password = self.password_entry.get()
 
-    def disconnect_from_network(self):
-        # Placeholder. In a real implementation, this would disconnect from the current network.
-        pass
+        try:
+            # Update wpa_supplicant.conf with network details
+            with open("/etc/wpa_supplicant/wpa_supplicant.conf", "a") as conf_file:
+                conf_file.write(f'network={{ssid="{selected_network}"\npsk="{password}"}}')
 
-    def forget_network(self):
-        # Placeholder. In a real implementation, this would forget the selected network.
-        pass
+            # Restart the network interface
+            subprocess.call(['sudo', 'wpa_cli', 'reconfigure'])
+            messagebox.showinfo("Success", f"Connected to {selected_network}")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to connect to {selected_network}. Error: {e}")
 
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    wifi_dialog = WifiScreen(root)
-    root.mainloop()
+    def show_keyboard(self, event):
+        if not self.keyboard_instance:
+            self.keyboard_instance = Keyboard(self, event.widget)
+            self.keyboard_instance.pack(side=tk.BOTTOM, fill=tk.BOTH)

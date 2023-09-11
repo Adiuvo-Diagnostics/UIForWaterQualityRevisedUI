@@ -65,25 +65,9 @@ class HomeScreen(BaseScreen):
         self.app_instance.destroy()
 
     def show_wifi_dialog(self):
-        # 1. Scan for available networks
-        try:
-            scan_output = subprocess.check_output(["sudo", "iwlist", "wlan0", "scan"])
-            networks = [line for line in scan_output.decode("utf-8").split("\n") if "ESSID" in line]
-            networks = [net.split(":")[1].replace('"', '') for net in networks]
-        except:
-            messagebox.showerror("Error", "Unable to fetch Wi-Fi networks.")
-            return
-
-        # 2. Display the networks in a dialog
-        wifi_dialog = tk.Toplevel(self)
-        wifi_dialog.title("Available Wi-Fi Networks")
-        listbox = tk.Listbox(wifi_dialog)
-        for net in networks:
-            listbox.insert(tk.END, net)
-        listbox.pack(fill=tk.BOTH, expand=True)
-        listbox.bind('<Double-Button-1>',
-                     lambda event: self.connect_to_wifi(listbox.get(listbox.curselection()), wifi_dialog))
-
+        from .wifi_screen import WifiPage  # Import inside the function
+        self.app_instance.switch_screen(WifiPage)
+        
     def is_connected(self):
         try:
             # Try to establish a socket connection to a public DNS server on port 53 (used by DNS)
@@ -93,20 +77,4 @@ class HomeScreen(BaseScreen):
             pass
         return False
 
-    def connect_to_wifi(self, network_name, dialog):
-        password = simpledialog.askstring("Password", f"Enter password for {network_name}:", show='*')
-        if not password:
-            return
-        try:
-            # You might need to adjust the nmcli command based on your setup
-            subprocess.check_output(["sudo", "nmcli", "device", "wifi", "connect", network_name, "password", password])
-            dialog.destroy()
-            messagebox.showinfo("Success", f"Connected to {network_name}!")
-            if self.is_connected():
-                self.wifi_image_path = os.path.join(self.current_directory, "../buttons/wifi-conn.png")
-            else:
-                self.wifi_image_path = os.path.join(self.current_directory, "../buttons/wifi-miss.png")
-
-        except:
-            messagebox.showerror("Error", f"Failed to connect to {network_name}.")
 

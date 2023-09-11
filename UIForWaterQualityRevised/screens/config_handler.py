@@ -21,12 +21,6 @@ class ConfigHandler:
     def get_acquisition_duration_in_secs(self):
         return int(self.data.get("acquisitionDurationInSecs"))
 
-    def get_threshold_delta_peak_counts(self):
-        return float(self.data.get("thresholdDeltaPeakCounts"))
-
-    def get_threshold_delta_total_counts(self):
-        return float(self.data.get("thresholdDeltaTotalCounts"))
-
     def get_mu1(self):
         return float(self.data.get("mu1"))
 
@@ -51,13 +45,6 @@ class ConfigHandler:
         self.data["acquisitionDurationInSecs"] = int(value)
         self.save_data()
 
-    def set_threshold_delta_peak_counts(self, value):
-        self.data["thresholdDeltaPeakCounts"] = float(value)
-        self.save_data()
-
-    def set_threshold_delta_total_counts(self, value):
-        self.data["thresholdDeltaTotalCounts"] = float(value)
-        self.save_data()
 
     def set_mu1(self, value):
         self.data["mu1"] = float(value)
