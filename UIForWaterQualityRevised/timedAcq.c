@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <ncurses.h>
 #include <time.h>
+#include <sys/time.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
@@ -128,13 +129,19 @@ void main(int sec)
 	fclose(fptr);
 	printf("Sec = %d\n",SetTime);
 
-	time_t time_start = time(NULL);
+	// time_t time_start = time(NULL);
+	// time_t time_start = time(NULL);
+		struct timespec time_start;
+		clock_gettime(CLOCK_REALTIME, &time_start);
+
 
 	printf("Sec = %d\n",SetTime);
 	
 	while(1)
 	{	
-		if(time(NULL)-time_start > SetTime)
+		struct timespec current_time;
+		clock_gettime(CLOCK_REALTIME, &current_time);
+		if ((current_time.tv_sec - time_start.tv_sec) > SetTime)
 		{
      		break;
 		}
@@ -368,10 +375,10 @@ int spi_configure()
     return 0;
 }
 
-long getMicrotime(){
-	struct timeval currentTime;
-	gettimeofday(&currentTime, NULL);
-	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+long getMicrotime() {
+    struct timeval currentTime;
+    gettimeofday(&currentTime, NULL);
+    return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 }
 
 int spi_txfr(uint8_t* data,int data_length)
