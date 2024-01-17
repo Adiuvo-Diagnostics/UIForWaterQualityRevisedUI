@@ -12,10 +12,17 @@
 #include <stdio.h>
 #include <ncurses.h>
 #include <time.h>
-#include <sys/time.h>
 #include <stdlib.h>
 #include <sys/time.h>
-
+#include <iostream>
+#include <fstream>
+#include <chrono>
+#include <ctime>
+#include <cstring>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <stdint.h>
 // /************************************************************
 // * TI TDC720x REGISTER SET ADDRESSES
 // ************************************************************/
@@ -129,22 +136,15 @@ void main(int sec)
 	fclose(fptr);
 	printf("Sec = %d\n",SetTime);
 
-	// time_t time_start = time(NULL);
-	// time_t time_start = time(NULL);
-		struct timespec time_start;
-		clock_gettime(CLOCK_REALTIME, &time_start);
+	auto time_start = std::chrono::system_clock::now();
 
-
-	printf("Sec = %d\n",SetTime);
+	printf("starttime = %ld\n",time_start);
 	
 	while(1)
 	{	
-		struct timespec current_time;
-		clock_gettime(CLOCK_REALTIME, &current_time);
-		if ((current_time.tv_sec - time_start.tv_sec) > SetTime)
-		{
-     		break;
-		}
+		if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - time_start).count() > SetTime) {
+            break;
+        }
 		tdcval = tdc_measure();
 		if(tdcval<=100.00)
 		{
@@ -287,6 +287,7 @@ double tdc_measure()
 {
 
 	tdc_send(TI_TDC720x_CONFIG1_REG,0x01);//Start 
+	auto start_time = std::chrono::high_resolution_clock::now();
 	while(GPIO_READ(tdc2_interu_pin))
 	{
 
@@ -375,11 +376,11 @@ int spi_configure()
     return 0;
 }
 
+// Replacing time-related functions
 long getMicrotime() {
-    struct timeval currentTime;
-    gettimeofday(&currentTime, NULL);
-    return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
-}
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::microseconds>(currentTime.time_since_epoch()).count();
+} 
 
 int spi_txfr(uint8_t* data,int data_length)
 {
