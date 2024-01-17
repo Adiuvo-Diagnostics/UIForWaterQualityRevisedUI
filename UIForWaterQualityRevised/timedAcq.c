@@ -14,7 +14,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include <iostream>
 #include <fstream>
 #include <chrono>
 #include <ctime>
